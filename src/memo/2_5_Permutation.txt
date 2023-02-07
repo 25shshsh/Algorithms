@@ -1,0 +1,31 @@
+a b c
+a c b
+b a c
+b c a
+c b a
+c a b
+
+상태공간트리, 백트래킹 기법, 루트노드로 돌아가기 위한 역스왑.
+
+swap메서드에서 depth = 0, i = 0 (depth <= i < data.length)
+
+루트노드는 abc
+- 깊이우선탐색 시작
+abc에서 depth = 0, i = 0일때 Abc (data[0] <-> data[0])
+Abc에서 depth = 1, i = 1일때 ABc (data[1] <-> data[1])
+Abc에서 depth = 1, i = 2일때 ACb (data[1] <-> data[2])
+
+abc에서 depth = 0, i = 1일때 Bac (data[0] <-> data[1])
+Bac에서 depth = 1, i = 1일때 BAc (data[1] <-> data[1])
+Bac에서 depth = 1, i = 2일때 BCa (data[1] <-> data[2])
+
+abc에서 depth = 0, i = 2일때 Cba (data[0] <-> data[2])
+Cba에서 depth = 1, i = 1일때 CBa (data[1] <-> data[1])
+Cba에서 depth = 1, i = 2일때 CAb (data[1] <-> data[2])
+
+** (depth가 2에서 3이 되면 012 출력, 후 depth만큼 역스왑으로 abc로 돌아오기)
+depth = 3 >> 출력 >> swap(2,2) (1,1) >>
+depth는 1로 돌아왔고, i는 i이지만 다시 for문 초기로 돌아가서 i=2
+00 12는 abc >acb 이하 반복
+
+
