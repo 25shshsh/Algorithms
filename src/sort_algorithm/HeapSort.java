@@ -2,8 +2,8 @@ package sort_algorithm;
 
 import java.util.stream.IntStream;
 
-public class HeapSort {
-
+public class HeapSort {// 인덱스 0 기준이다.
+    // https://st-lab.tistory.com/225
     static int [] data = {2,8,6,1,10,15,3,12,11}; // 9
 
     public static void main(String[] args) {
@@ -14,7 +14,7 @@ public class HeapSort {
     }
 
     private static int getParent(int child) { // 부모 인덱스를 얻는 함수
-        return (child - 1) / 2;
+        return (child - 1) / 2; // 인덱스 0부터일때
     }
 
     private static void swap(int [] data, int i, int j) {
@@ -22,50 +22,44 @@ public class HeapSort {
         data[i] = data[j];
         data[j] = tmp;
     }
+    public static void maxHeap(int[] arr, int arrLength) { // maxheap 정렬법.
 
-    public static void sort(int[] a) {
-        sort(a, a.length);
-    }
-
-    private static void sort(int[] a, int size) { // size란 배열의 크기
-
-        /*
-         * 부모노드와 heaify과정에서 음수가 발생하면 잘못 된 참조가 발생하기 때문에
-         * 원소가 1개이거나 0개일 경우는 정렬 할 필요가 없으므로 바로 함수를 종료한다.
-         */
-        if(size < 2) {
+        if(arrLength < 2) { //basecase 비교하려면 최소2개필요.
             return;
         }
 
-        /*
-         * left child node = index * 2 + 1
-         * right child node = index * 2 + 2
-         * parent node = (child node - 1) / 2
-         */
-
-        // 가장 마지막 요소의 부모 인덱스
-        int parentIdx = getParent(size - 1); // size-1은 트리의 마지막 원소.
+        int parentIdx = getParent(arrLength - 1); // size-1은 트리의 마지막 원소.
 
         // max heap 구성 : heapify가 반복하여 재귀하여 구성한다.
         for(int i = parentIdx; i >= 0; i--) {
-            heapify(a, i, size - 1);
+            heapify(arr, i, arrLength - 1); // recursive case
         }
 
-        // 1번째 max heap 구성 후.
-        for(int i = size - 1; i > 0; i--) {
+    }
+
+    public static void sort(int[] arr) {
+        sort(arr, arr.length); // 은닉을 위해 public메서드안에 private로 만든 실제로직 첨가. **
+    }
+
+    private static void sort(int[] arr, int arrLength) { // max-heap정렬상태에서 오름차순 정렬법.
+
+        maxHeap(arr,arrLength);
+
+        // 정렬하려면 (max)heap상태가 전제조건이다. **
+        for(int i = arrLength - 1; i > 0; i--) {
 
             /*
              *  root인 0번째 인덱스와 (size-1)번째 인덱스의 값을 교환해준 뒤 마지막 인덱스를 제외
              *  0 ~ (i-1) 까지의 부분트리에 대해 max heap을 만족하도록 재구성한다.
              *  size < 2 까지 반복하여.
              */
-            swap(a, 0, i);
-            heapify(a, 0, i - 1);
+            swap(arr, 0, i);
+            heapify(arr, 0, i - 1);
         }
 
     }
 
-    private static void heapify(int[] a, int parentIdx, int lastIdx) {
+    static void heapify(int[] arr, int parentIdx, int lastIdx) {
         /*
          * 현재 트리에서 부모 노드의 자식노드 인덱스를 각각 구해준다.
          * 현재 부모 인덱스를 가장 큰 값을 갖고있다고 가정한다.
@@ -77,10 +71,10 @@ public class HeapSort {
         /*
          *  left child node와 비교
          *
-         *  자식노드 인덱스가 끝의 원소 인덱스를 넘어가지 않으면서, 현재 가장 큰 인덱스보다 왼쪽 자식노드의 값이 더 클경우
+         *  자식노드 인덱스가 끝의 원소 인덱스를 넘어가지 않으면서, 현재 가장 큰 인덱스(초기는 부모)보다 왼쪽 자식노드의 값이 더 클경우
          *  가장 큰 인덱스를 가리키는 largestIdx를 왼쪽 자식노드인덱스로 바꿔준다.
          */
-        if(leftChildIdx <= lastIdx && a[largestIdx] < a[leftChildIdx]) {
+        if(leftChildIdx <= lastIdx && arr[largestIdx] < arr[leftChildIdx]) {
             largestIdx = leftChildIdx;
         }
 
@@ -91,7 +85,7 @@ public class HeapSort {
          *  가장 큰 인덱스를 가리키는 largestIdx를 오른쪽 자식노드인덱스로 바꿔준다.
          *
          */
-        if(rightChildIdx <= lastIdx && a[largestIdx] < a[rightChildIdx]) {
+        if(rightChildIdx <= lastIdx && arr[largestIdx] < arr[rightChildIdx]) {
             largestIdx = rightChildIdx;
         }
 
@@ -101,8 +95,8 @@ public class HeapSort {
          * 교환 된 자식노드를 부모노드로 삼은 서브트리를 검사하도록 재귀 호출 한다.
          */
         if(parentIdx != largestIdx) { // <= basecase
-            swap(a, largestIdx, parentIdx);
-            heapify(a, largestIdx, lastIdx);
+            swap(arr, largestIdx, parentIdx);
+            heapify(arr, largestIdx, lastIdx);
             // 부모와 자식을 가르키는 인덱스를 바꿨다.(=값을 서로바꿨다.) -> 이제 여기서 가르키는 largestIdx는 기존의 parentIdx이다.
             // 내가 100인데 1과 치환되면 나 = 1이잖아.
         }
