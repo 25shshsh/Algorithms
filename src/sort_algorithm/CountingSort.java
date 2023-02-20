@@ -2,48 +2,43 @@ package sort_algorithm;
 
 import java.util.stream.IntStream;
 
-public class CountingSort { // 최적화는 안하고 일단 기본적인 구현만 신경써서.
+public class CountingSort {
 
-    private static int [] arr = {2,5,3,0,2,3,0,3}; // A
-    private static int [] accum; // B
-    private static int [] sortedArray = new int[arr.length]; // C
+    private static int [] data = {2,5,3,0,2,3,0,3};
+    private static int [] sortData = new int [data.length];
+    private static int k = 5; // 정렬 할 정수의 크기는 0~k이다. // 매개변수로도 사용.
+    private static int [] countArr = new int [k+1];
 
     public static void main(String[] args) {
-        System.out.print("정수 0~k까지 라는 사전조건이 있는 배열A : ");
-        printArr(arr);
-
-        System.out.print("0~5인 원소의 갯수를 누적한 배열B : ");
-        printArr(accumulation(arr,5)); // C
-
-        System.out.print("배열A와 배열B의 규칙성을 이용하여 CountSort : ");
-        printArr(countingSort(arr,accum,sortedArray));
+        countingSort(data,sortData); // return sortData
+        printArr(sortData);
     }
 
-    static int [] accumulation(int [] array, int k) { // 0에서 k사이의 정수를 정렬해야한다. (인덱스는 k까지)
-        accum = new int[k+1];
-        int count = 0;
+    static int [] counting (int [] data, int [] emptyArr) { // O(N^2)인거 같은데 선형시간이 왜 될까 확인해봐야할듯.
+        int cnt = 0;
 
-        for(int i = 0; i < array.length; i++) { // 카운팅
-            accum[array[i]] += 1;
+        IntStream.rangeClosed(0,data.length-1).forEach(i -> {
+            emptyArr[data[i]]++;  // 기본 카운팅
+        });
+
+        for(int i = 0; i < emptyArr.length; i ++) { // cnt에 누적시킨 값을 배열에 다시 붙여넣어서 누적합이 만들어짐.
+            cnt += emptyArr[i];
+            emptyArr[i] = cnt;
         }
 
-        for(int i = 0; i < accum.length; i++) { // 6번누적
-            count += accum[i];
-            accum[i] = count;
-        }
-        return accum;
+        return emptyArr;
     }
 
-    static int [] countingSort(int [] A, int [] B, int [] C) {
-        // A[8-1] = 3 >> B[3] = 7-- >> C[7-1] = 3
-        // A[7-1] = 0 >> B[0] = 2-- >> C[2-1] = 0
-        for(int i = A.length-1; i >= 0; i--) {
-            C[B[A[i]]-1] = A[i];
-            B[A[i]]--; // 배열C 인덱스 중복방지 위함. 자세한건 강의 21분쯤 다시보셈
-        }
-        return C;
-    }
+    static int [] countingSort(int [] data, int [] sortData) {
+        counting(data,countArr);
 
+        IntStream.rangeClosed(0, data.length-1).forEach(i -> { // A[2] = 5, C[5] = 8, B[8-1] = 5
+            sortData[countArr[data[i]]-1] = data[i];
+            countArr[data[i]]--; // 중복값은 sortData의 인덱스를 한 칸 앞으로 옮김 (저장되는 값은 동일)
+        });
+
+        return sortData;
+    }
 
 
     static void printArr(int [] array) {

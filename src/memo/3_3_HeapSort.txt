@@ -3,6 +3,23 @@
 
 5 10 11 =  i 2i 2i+1 // 4 9 10 = i 2i+1 2i+2
 
+- 로직흐름 **
+    parentIdx = (lastIdx-1)/2
+    parentIdx부터 0번쨰 인덱스까지가 자식노드를 가지고 있는 인덱스이다.
+    parentIdx들((lastIdx-1)/2부터 0번까지) 전부 maxHeapify해주면
+    max-heap상태의 배열이 된다.
+
+    무작위 배열을 max-heap 상태로 정렬시킨다..
+
+    max-heap상태에서 0번째 인덱스가 배열의 최댓값이다. >> 0번째 인덱스와 length-1 인덱스를 swap
+    0부터 length-2까지 인덱스를 가지는 배열을 max-heap 상태로 정렬시킨다.
+    (0번째인덱스만 적절한 위치로 보내면 된다. 0번째인덱스만이 힙을 깨니까)
+
+
+    배열의 size >= 1 동안만 반복해준다.
+
+
+
 
 - MAX_HEAPIFY (A[], i )
     1. 자식이 없다면 종료 (2j)

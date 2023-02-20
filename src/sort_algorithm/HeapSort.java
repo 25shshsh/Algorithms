@@ -5,6 +5,7 @@ import java.util.stream.IntStream;
 public class HeapSort {// 인덱스 0 기준이다.
     // https://st-lab.tistory.com/225
     static int [] data = {2,8,6,1,10,15,3,12,11}; // 9
+    static int [] data2 = {2,8,6,1,10,15,3,12,11}; // 9
 
     public static void main(String[] args) {
         sort(data);
@@ -22,7 +23,7 @@ public class HeapSort {// 인덱스 0 기준이다.
         data[i] = data[j];
         data[j] = tmp;
     }
-    public static void maxHeap(int[] arr, int arrLength) { // maxheap 정렬법.
+    public static void maxHeap(int[] arr, int arrLength) { // maxheap 정렬법. O(n)
 
         if(arrLength < 2) { //basecase 비교하려면 최소2개필요.
             return;
@@ -31,7 +32,7 @@ public class HeapSort {// 인덱스 0 기준이다.
         int parentIdx = getParent(arrLength - 1); // size-1은 트리의 마지막 원소.
 
         // max heap 구성 : heapify가 반복하여 재귀하여 구성한다.
-        for(int i = parentIdx; i >= 0; i--) {
+        for(int i = parentIdx; i >= 0; i--) { // 가장 작은 크기의 CBT부터 힙으로 >> 전체를 힙정렬상태로
             heapify(arr, i, arrLength - 1); // recursive case
         }
 
@@ -54,7 +55,7 @@ public class HeapSort {// 인덱스 0 기준이다.
              *  size < 2 까지 반복하여.
              */
             swap(arr, 0, i);
-            heapify(arr, 0, i - 1);
+            heapify(arr, 0, i - 1); //0번째인덱스가 힙을 깨니까 0번째인덱스를 리프까지 옮긴다.
         }
 
     }
@@ -94,10 +95,9 @@ public class HeapSort {// 인덱스 0 기준이다.
          * 그럴 경우 해당 자식 노드와 부모노드를 교환해주고,
          * 교환 된 자식노드를 부모노드로 삼은 서브트리를 검사하도록 재귀 호출 한다.
          */
-        if(parentIdx != largestIdx) { // <= basecase
-            swap(arr, largestIdx, parentIdx);
-            heapify(arr, largestIdx, lastIdx);
-            // 부모와 자식을 가르키는 인덱스를 바꿨다.(=값을 서로바꿨다.) -> 이제 여기서 가르키는 largestIdx는 기존의 parentIdx이다.
+        if(parentIdx != largestIdx) { // largestIdx가 자식노드로 바뀌었다면? (basecase 조건)
+            swap(arr, largestIdx, parentIdx); // largetstIdx = left OR rightChildIdx를 부모노드의 인덱스와 바꿔주고 (왜? 자식노드가 더 크니까)
+            heapify(arr, largestIdx, lastIdx); // 나보다 컸던 자식의 위치로 내려와서 recursion
             // 내가 100인데 1과 치환되면 나 = 1이잖아.
         }
     }

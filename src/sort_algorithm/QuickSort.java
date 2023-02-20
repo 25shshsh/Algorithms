@@ -25,7 +25,7 @@ public class QuickSort {
                 tmp = A[j];
                 A[j] = A[i];
                 A[i] = tmp;
-                 // i가 늘어나서 j는 자연히 1칸 밀리는 것.
+                 // i를 한칸늘리고 i j 스왑 j+
             }else {
                 // A[j]가 A[r]보다 크다면? >> 그냥 냅두고 j+1(비교대상 위치+1)이다.
             }
