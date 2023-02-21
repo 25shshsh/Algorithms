@@ -2,7 +2,7 @@ package java_sort;
 
 
 import java.util.Arrays;
-// Comparable<>
+// Comparable<> : 정렬하기 위한 기준을 하나만 사용가능.
 public class Fruit implements Comparable<Fruit>{ // 중요
 
     public String name;
@@ -13,11 +13,13 @@ public class Fruit implements Comparable<Fruit>{ // 중요
     }
 
 /*    public int compareTo(Fruit other) { // 중요 -1 0 1로 크기비교.
-        return name.compareTo(other.name);
+
     }*/
+    @Override
     public int compareTo(Fruit other) { // 하나만 사용가능
-        //return quantity - other.quantity; // -1 0 1로 크기비교. 크기 오름차순
-        return other.quantity - quantity; // -1 0 1로 크기비교. 크기 내림차순
+        return quantity - other.quantity; // -1 0 1로 크기비교. 크기 오름차순
+        //return other.quantity - quantity; // -1 0 1로 크기비교. 크기 내림차순
+        //return name.compareTo(other.name);
     }
     // 2가지 이상 정렬은 Comparator 인터페이스를 사용해야함.
 
@@ -36,7 +38,7 @@ public class Fruit implements Comparable<Fruit>{ // 중요
         fruits[2] = new Fruit("Banana",100);
         fruits[3] = new Fruit("Orange",80);
 
-        Arrays.sort(fruits);
+        Arrays.sort(fruits); // comparable<> 인터페이스의 compareTo의 기준에 따라 동작.
 
         for(int i = 0 ; i < fruits.length; i++) {
             System.out.println(fruits[i].getFruitName()+", "+fruits[i].getQuantity());
