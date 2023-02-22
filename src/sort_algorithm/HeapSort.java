@@ -46,14 +46,14 @@ public class HeapSort {// 인덱스 0 기준이다.
 
         maxHeap(arr,arrLength);
 
+
         // 정렬하려면 (max)heap상태가 전제조건이다. **
         for(int i = arrLength - 1; i > 0; i--) {
 
-            /*
-             *  root인 0번째 인덱스와 (size-1)번째 인덱스의 값을 교환해준 뒤 마지막 인덱스를 제외
-             *  0 ~ (i-1) 까지의 부분트리에 대해 max heap을 만족하도록 재구성한다.
-             *  size < 2 까지 반복하여.
-             */
+            // *  root인 0번째 인덱스와 (size-1)번째 인덱스의 값을 교환해준 뒤 마지막 인덱스를 제외
+            // *  0 ~ (i-1) 까지의 부분트리에 대해 max heap을 만족하도록 재구성한다.
+            // *  size < 2 까지 반복하여.
+            // *//*
             swap(arr, 0, i);
             heapify(arr, 0, i - 1); //0번째인덱스가 힙을 깨니까 0번째인덱스를 리프까지 옮긴다.
         }

@@ -1,0 +1,50 @@
+- 그래프 순회
+    traversal : 그래프의 모든 노드를 방문하는 일.
+    Breadth-First Search, Depth-First Search
+
+    - 그래프 BFS(너비우선탐색)
+        L은 동심원 형태.
+        출발노드 L0
+        L1(s로부터 거리가 1인 노드들)을 방문.
+        L2(s로부터 거리가 2인 노드들)을 방문.
+        L3(s로부터 거리가 3인 노드들)을 방문.
+
+    - 큐를 이용한 너비우선순회
+        일반적인 BFS level order traversal과 같은 이야기다.
+        이미 방문된 노드라는 표시할 것
+        출발노드를 큐에 넣을 것
+        큐가 빌때까지 반복(체크되지 않은 인접노드가 없을 때까지 반복)
+            큐에서 꺼낸 노드와 인접하고 체크되지 않은 노드들을
+            체하고 큐에 넣는다.
+
+        ** 탐색이 확산되는 게 partition recursion과 비슷하네
+
+
+- BFS에서 최단 경로 출력.
+    printPath(graph, s, v) // 출발점s에서 도착점v까지의 경로 출력
+
+    if) 출발점과 도착점의 경로가 같다면? >> 출발점 출력 basecase
+    else if) predecessor가 없다면? >> s to v의 경로는 없다. 출력
+    else)
+        printPath(Graph, s, predecessor(v)) // recursive case 순환알고리즘
+        print v
+
+    >> v가 s와 같아질때까지 줄어들고 s와 같아진다면 s출력 후 s의 successor를 계속 출력한다.
+        s가 v의 predecessor가 될때까지
+
+
+- DFS 알고리즘
+    시간복잡도는 O(n+m) // 노대개수 + recursion 함수 호출 수(edge)
+
+    DFS(graph, v) // v는 시작노드
+        시작노드는 방문체크
+        for 정점v의 인접 정점 집합에 방문되지않는 노드x가 있다면?
+            if (visited[x] = NO) DFS(x);
+
+    >> 시작노드v의 인접노드들 x를 방문노드로 만들고 ~~ 인접노드 중 방문되지 않는 노드가 있는동안 recursion~
+
+
+
+
+
+
