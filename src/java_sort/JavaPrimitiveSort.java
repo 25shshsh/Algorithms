@@ -17,13 +17,14 @@ public class JavaPrimitiveSort {
     // Arrays 클래스가 원시타입 정렬메서드 제공.
     // double, char 등 다른 primitive type도 사용가능.
     public static void main(String[] args) {
-        Arrays.sort(data); // Arrays.sort()로 정렬된다.
+        Arrays.sort(data); // Arrays.sort()로 전체정렬된다.
         printArr(data);
 
+        // 0 ~ 실제데이터까지 정렬
         Arrays.sort(data2,0,7+1); // data[0] ~ data[size-1]
         printArr(data2);
 
-        // String 타입 정렬도 가능, 대소문자 우선순위도 해줌.
+        // primitive가 아닌 String 타입의 정렬도 가능, (대소문자 구분)
         Arrays.sort(data4);
         System.out.print(data4[0]+" ");
         System.out.print(data4[1]+" ");
