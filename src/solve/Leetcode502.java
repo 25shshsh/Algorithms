@@ -1,9 +1,11 @@
+package solve;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.stream.IntStream;
-
-public class Solution {
+// https://leetcode.com/problems/ipo/
+public class Leetcode502 {
 // 입력: k = 3, w = 0, 이익 = [1,2,3], 자본 = [0,1,2]
 // 출력: 6
 
@@ -22,7 +24,8 @@ public class Solution {
 
         public int compareTo(Project project) {
             return capital - project.capital;
-        }
+        } // 오름차순 자본으로 정렬.
+        // 필요자본이 늘어날수록 이익도 비례적으로 늘어날테니까.
 
     }
     public static void main(String[] args) {
@@ -32,7 +35,7 @@ public class Solution {
 
 
     public static int findMaximizedCapital(int k, int w, int[] capital, int[] profits) {
-        int n = profits.length;
+        int n = profits.length; // 배열의 길이를 불러올 때마다 계산하기보다, 변수에 넣어서 시간복잡도를 줄이자.
 
         Project[] projects = new Project[n];
 
@@ -44,13 +47,15 @@ public class Solution {
         // PriorityQueue의 default는 min heap이다.
         // but we need a max heap, so we use Collections.reverseOrder()
         // ** 우선순위 큐는 들어간 순서에 상관없이 우선순위가 높은 데이터가 먼저 나온다. 여기서는 최댓값 우선순위큐
-        PriorityQueue<Integer> queue = new PriorityQueue<Integer>(n, Collections.reverseOrder());
+        PriorityQueue<Integer> queue = new PriorityQueue<Integer>(n, Collections.reverseOrder()); // (capacity,comparator)
 
         int ptr = 0;
-        
-        // 수주가능한 프로젝트가 남아있고, 내 자본보다 같거나 적은 자본을 필요로 하는 가능한 프로젝트가 있다면
-        // 그 프로젝트의 이익을 우선순위 큐에 넣는다. (반복)
-        // 그러나 큐가 비었다면 가능한 프로젝트가 없으므로 종료.
+
+        // 필요자본이 0 ~ 현재자본까지인 Project들을 중 가장 이익이 큰 프로젝트 하나만 큐에 추가. ( reverseOrder덕분)
+        // 만약 수주할 수 있는 프로젝트가 없었다면 break, 있었다면 큐에서 값을 빼내고 그 값을 현재자본에 누적.
+        // 그리고 프로젝트 수주횟수는 하나 감소.
+
+        // >> 여기서의 대부분의 기능은 원하는 변수의 최댓값을 우선순위로 찾고 추가하는 PriorityQueue 덕분이다.
         for (int i = 0; i < k; i++) {
             while (ptr < n && projects[ptr].capital <= w) { //projects[ptr].capital 오름차순 정렬
                 queue.add(projects[ptr++].profit);

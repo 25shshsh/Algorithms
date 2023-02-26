@@ -1,3 +1,5 @@
+package solve;
+
 public class Leetcode540 {
 
     public static void main(String[] args) {
