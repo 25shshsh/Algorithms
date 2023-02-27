@@ -1,7 +1,8 @@
+package review;
+
 import java.util.stream.IntStream;
 
-public class Memo {
-
+public class MergeSort {
     private static int [] data = {1,8,6,5,3,4,2,7};
 
     public static void main(String[] args) {
