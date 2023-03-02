@@ -40,7 +40,7 @@ public class BubbleSort {
     }
 
     static void printArr (int [] array) {
-        IntStream.rangeClosed(0,data.length-1).forEach(i -> {
+        IntStream.rangeClosed(0,array.length-1).forEach(i -> {
             System.out.print(array[i]+" ");
         });
         System.out.println();
