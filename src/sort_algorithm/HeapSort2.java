@@ -1,13 +1,12 @@
 package sort_algorithm;
 
 import java.util.stream.IntStream;
-
+// 이게 진짜임
 public class HeapSort2 {
 
     private static int [] arr = {5,1,8,4,7,6,3,2};
 
     public static void main(String[] args) {
-        //heapSort(arr,0, arr.length-1);
         heapSort(arr,0,arr.length-1);
         printArr(arr);
     }
@@ -41,6 +40,7 @@ public class HeapSort2 {
         for(int i = parentIdx; i >= 0; i--) {
             heapify(arr,i, lastIdx);
         }
+        // printArr(arr); maxHeap 확인 8 7 6 4 1 5 3 2
     }
 
     public static void heapSort(int [] arr, int firstIdx, int lastIdx) {

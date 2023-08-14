@@ -5,12 +5,11 @@ import java.util.stream.IntStream;
 public class HeapSort {// 인덱스 0 기준이다.
     // https://st-lab.tistory.com/225
     static int [] data = {2,8,6,1,10,15,3,12,11}; // 9
-    static int [] data2 = {2,8,6,1,10,15,3,12,11}; // 9
 
     public static void main(String[] args) {
         sort(data);
-        IntStream.rangeClosed(0,data.length-1).forEach(i -> {
-            System.out.print(data[i]+" ");
+        IntStream.rangeClosed(0, data.length - 1).forEach(i -> {
+            System.out.print(data[i] + " ");
         });
     }
 
@@ -35,7 +34,6 @@ public class HeapSort {// 인덱스 0 기준이다.
         for(int i = parentIdx; i >= 0; i--) { // 가장 작은 크기의 CBT부터 힙으로 >> 전체를 힙정렬상태로
             heapify(arr, i, arrLength - 1); // recursive case
         }
-
     }
 
     public static void sort(int[] arr) {

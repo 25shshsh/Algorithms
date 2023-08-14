@@ -17,7 +17,8 @@ public class Leetcode502 {
     static class Project implements Comparable<Project> {
         int capital, profit;
 
-        public Project(int capital, int profit) { // 순서 잘 보자.
+
+        public Project(int capital, int profit) { // 컨스트럭터, 순서 잘 보자.
             this.capital = capital;
             this.profit = profit;
         }

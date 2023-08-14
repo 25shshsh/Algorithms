@@ -4,67 +4,66 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 public class QuickSort {
-    // 평균적인 성능이 좋아 실전에서 가장 많이 쓴다.
     // 1. 기준원소(pivot)을 삼는다.
     // 2. 기준원소를 배열의 끝에 있는 원소와 위치를 바꾼다.
     // 3. 오직 기준원소보다 작은원소들, 큰 원소들로 나눈다. (각각의 원소들의 크기는 정렬하지 않는다.)
-    // 4. 정렬이 끝난 후 기준원소는 적절한 자리를 찾아들어간다.
+    // 4. 정렬이 끝난 후 기준원소는 적절한 자리를 찾아들어간다. (partition 메서드 마무리)
+    // 5. 순환함수로 정렬한다.
 
     private static int [] data = {1,8,6,5,3,4,2,7};
 
     public static void main(String[] args) {
-        printArr(quickSort(data,0,data.length-1));
+        printArr(quickSort(data,0, data.length-1));
     }
 
-    // 피봇 기준 정렬 후 >> 피봇의 인덱스를 리턴한다.
-    static int partition(int [] array, int start, int end) {
-
-        Random random = new Random();
-        int pivotIdx = random.nextInt(end+1); // bound 8는 0~7
-
-        swap(array,pivotIdx,end); // pivotIdx의 값은 이제 end가 가지고있다. ** swap시 값이 어디로 이동되는지 잘 확인해라. **
-        int pivot = end; // pivot 정해짐.
-
-        int i = start-1;
-        int j = start;
-
-        while(j < end) {
-            if(array[pivot] < array[j]) { // 이 조건의 부등호로 오름차순 내림차순 바뀐다.
-                j++;
-            }else{ // pivot이 array[j]보다 작을때
-                i++;
-                swap(array,i,j);
-                j++;
-            }
-        }
-        // 정렬 후 pivot을 올바른 위치로 치환. 105p 참고.
-        swap(array,i+1,pivot);
-
-        return pivot;
-    }
-
-    static int [] quickSort(int [] array, int start, int end) {
-        if(start < end) { // basecase
-            int pivot = partition(array, start, end); // 기준원소보다 큰지 작은지에 따라 기준원소 양쪽으로 옮김 그리고 기준원소 리턴.
-            quickSort(array, start, pivot-1); // 기준원소 기준 전반부에 partition 메서드 실행
-            quickSort(array, pivot+1, end); // 기준원소 기준 후반부에 partition 메서드 실행
-            // start < end 조건에 부합하는 경우 계속 recursive
+    public static int [] quickSort(int [] array, int firstIdx, int lastIdx) {
+        if(firstIdx < lastIdx) { // basecase
+            int pivotIdx = partition(array, firstIdx, lastIdx);
+            quickSort(array, firstIdx, pivotIdx-1);
+            quickSort(array, pivotIdx+1, lastIdx);
         }
         return array;
     }
 
-    static void swap (int [] array, int firstIdx, int secondIdx) {
-        int tmp = 0;
-        tmp = array[firstIdx];
+    public static int partition(int [] array, int firstIdx, int lastIdx) {
+
+        Random random = new Random();
+        int pivotIdx = random.nextInt(lastIdx - firstIdx + 1) + firstIdx;; // 1. 기준원소(pivot)을 랜덤으로 선택한다.
+
+        swap(array, pivotIdx, lastIdx); // 2. 기준원소를 배열의 끝에 있는 원소와 '실제 값'을 바꾼다.
+        pivotIdx = lastIdx; // pivotIdx는 배열의 끝으로 이동되었다.
+
+        // 인덱스 0~i 까지는 pivot보다 작은 수들, j에는 pivot보다 큰 수가 오게끔 하면된다.
+        // 마지막으로 i와 j 사이의 i+1의 인덱스와 pivot을 스왑해주면 끝
+        // 1 3 2 4 8 7 6 5
+        int i = firstIdx-1;
+        int j = firstIdx;
+
+        while(j < lastIdx) {
+            if(array[pivotIdx] >= array[j]) {
+                i++;
+                swap(array, i, j);
+            }
+            j++;
+        }
+
+        swap(array,i+1,pivotIdx);
+
+        return i+1; // i+1의 위치에 기준원소가 들어가있으므로 i+1 리턴
+    }
+
+    // 배열의 두 인덱스의 값을 바꾸는 기능.
+    public static void swap(int [] array, int firstIdx, int secondIdx) {
+        int tmp = array[firstIdx];
         array[firstIdx] = array[secondIdx];
         array[secondIdx] = tmp;
     }
 
-    static void printArr (int [] array) {
+    // 배열을 출력하는 기능.
+    public static void printArr (int [] array) {
         IntStream.rangeClosed(0,array.length-1).forEach(i -> {
             System.out.print(array[i]+" ");
         });
         System.out.println();
     }
-
 }

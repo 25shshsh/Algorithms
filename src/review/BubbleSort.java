@@ -20,7 +20,6 @@ public class BubbleSort {
 
     static int [] bubbleSort (int [] array) {
         int n = array.length;
-        int tmp = 0;
 
         while(n > 1) {
             for(int i = 0; i < n-1; i++) { // length-2번 비교
